@@ -71,20 +71,8 @@ public class BurhanQuest {
             System.out.print("Silakan masukkan banyak pengembara yang ingin didaftarkan: ");
             String travelerCountInput = input.nextLine();
             // TODO: Validasi input jumlah pengembara
-            try {
-                int traveler = Integer.parseInt(travelerCountInput);
 
-                if (traveler >= 0) {
-                    travelerCount = traveler;
-                    invalidInput = false;
-                    }
-                else {
-                    System.out.println("Input tidak valid. Harap masukkan bilangan bulat nonnegatif.");
-                    }
-            }
-            catch (NumberFormatException e) {
-                System.out.println("Input tidak valid. Harap masukkan bilangan bulat nonnegatif.");
-            }
+            System.out.println("Input tidak valid. Harap masukkan bilangan bulat nonnegatif.");
         }
         System.out.println();
 
