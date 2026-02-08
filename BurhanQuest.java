@@ -93,13 +93,54 @@ public class BurhanQuest {
         System.out.println("Mulai memasukkan data quest.");
         // TODO: Input data quest sebanyak quest yang diminta
         for (int i = 0; i < questCount; i++) {
-            
-        }
+            boolean ValidasiQuest = false;
+            while (!ValidasiQuest) {
+                System.out.println("Quest " + (i + 1));
+                System.out.print("Masukkan nama quest: ");
+                String nama = input.nextLine().trim();
+                System.out.print("Masukkan deskripsi quest: ");
+                String deskripsi = input.nextLine().trim();
+                System.out.print("Masukkan reward quest berupa bilangan bulat nonnegatif: ");
+                String reward = input.nextLine().trim();
+                System.out.print("Masukkan bonus exp quest berupa bilangan bulat nonnegatif: ");
+                String bonusExp = input.nextLine().trim();
+                System.out.print("Masukkan tingkat kesulitan quest (opsi: mudah, menengah, sulit): ");
+                String tingkatKesulitan = input.nextLine().trim();
+
+                boolean isNamaValid = nama.matches("^[a-zA-Z0-9 ]+$");
+                boolean isDeskripsiValid = deskripsi.matches("^[a-zA-Z0-9 ]+$");
+                boolean isRewardValid = reward.matches("^[0-9]+$");
+                boolean isExpValid = bonusExp.matches("^[0-9]+$");
+                boolean isTingkatValid = tingkatKesulitan.equalsIgnoreCase("mudah") ||
+                                        tingkatKesulitan.equalsIgnoreCase("menengah") ||
+                                        tingkatKesulitan.equalsIgnoreCase("sulit");
+                
+                if (isNamaValid && isDeskripsiValid && isRewardValid && isExpValid && isTingkatValid) {
+                    questData += // nanti dilanjut
+                    ValidasiQuest = true;
+                    System.out.println("Quest berhasil ditambahkan.");
+                } else {
+                    System.out.println("Input tidak valid. Harap masukkan data dengan benar.");
+                }
+                }
+            }
+
         System.out.println();
 
         System.out.println("Mulai memasukkan data pengembara.");
         // TODO: Input data pengembara sebanyak pengembara yang diminta
         for (int i = 0; i < travelerCount; i++) {
+            boolean ValidasiTraveler = false;
+            while(!ValidasiTraveler){
+                System.out.print("Pengembara " + (i + 1));
+                System.out.print("Masukkan nama pengembara: ");
+                String pengembara = input.nextLine().trim();
+                System.out.print("Masukkan level pengembara berupa bilangan bulat: ");
+                String level = input.nextLine().trim();
+
+                boolean isPengembaraValid = pengembara.matches("^[a-zA-Z0-9 ]+$");
+                // boolean isLevelValid = dilanjut sampai sini
+            }
             
         }
         System.out.println("Data berhasil dimasukkan.");
