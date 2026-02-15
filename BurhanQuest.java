@@ -91,7 +91,7 @@ public class BurhanQuest {
         String questData = "";
         String travelerData = "";
         System.out.println("Mulai memasukkan data quest.");
-        // TODO: Input data quest sebanyak quest yang diminta
+        // Input data quest sebanyak quest yang diminta
         for (int i = 0; i < questCount; i++) {
             boolean ValidasiQuest = false;
             while (!ValidasiQuest) {
@@ -172,7 +172,7 @@ public class BurhanQuest {
         System.out.println();
 
         boolean running = true;
-        // TODO: Loop menu utama
+        // Loop menu utama
         while (running) {
             System.out.println("Menu:");
             System.out.println("1. Lihat daftar quest");
@@ -208,33 +208,57 @@ public class BurhanQuest {
                     // Tampilkan daftar quest
                     System.out.println("Quest yang terdaftar: ");
                     // Memisah data per baris
-                    String[] lines = questData.split("\n");
+                   Scanner questScanner = new Scanner(questData);
                     int counterId = 1;
-                    for (String line : lines){
+                    
+                    while (questScanner.hasNextLine()) {
+                        String line = questScanner.nextLine();
                         if (line.trim().isEmpty()) continue;
-                        // Mengambil data dari input pengguna
-                        String[] data = line.split(";");
+
+                        int index_awal = 0;
+                        int index_akhir = line.indexOf(';');
+                        String data0 = line.substring(index_awal, index_akhir); // Nama Quest
+
+                        index_awal = index_akhir + 1; // geser ke setelah tanda pemisah ';' sebelumnya
+                        index_akhir = line.indexOf(';', index_awal);
+                        String data1 = line.substring(index_awal, index_akhir); // Deskripsi Quest
+
+                        index_awal = index_akhir + 1;
+                        index_akhir = line.indexOf(';', index_awal);
+                        String data2 = line.substring(index_awal, index_akhir); // Reward
+
+                        index_awal = index_akhir + 1;
+                        index_akhir = line.indexOf(';', index_awal);
+                        String data3 = line.substring(index_awal, index_akhir); // Bonus exp
+
+                        index_awal = index_akhir + 1;
+                        index_akhir = line.indexOf(';', index_awal);
+                        String data4 = line.substring(index_awal, index_akhir); // Tingkat kesulitan
+                        // Untuk yang terakhir, mengambil dari index_awal sampai ujung baris
+                        index_awal = index_akhir + 1;
+                        String data5 = line.substring(index_awal); // Status Quest
+                        
 
                         System.out.println("ID Quest: Q" + counterId);
-                        System.out.println("Nama Quest: " + data[0]);
-                        System.out.println("Deskripsi Quest: " + data[1]);
-                        System.out.println("Reward Quest: " + data[2] + " koin");
-                        System.out.println("Bonus Exp Quest: " + data[3] + " poin exp");
+                        System.out.println("Nama Quest: " + data0);
+                        System.out.println("Deskripsi Quest: " + data1);
+                        System.out.println("Reward Quest: " + data2 + " koin");
+                        System.out.println("Bonus Exp Quest: " + data3 + " poin exp");
                         // Mencetak tingkat kesulitan dan status menggunakan unicode
                         System.out.print("Tingkat Kesulitan Quest: ");
-                        if (data[4].equalsIgnoreCase("mudah")){
+                        if (data4.equalsIgnoreCase("mudah")){
                             System.out.println(mudah);
-                        } else if (data[4].equalsIgnoreCase("menengah")){
+                        } else if (data4.equalsIgnoreCase("menengah")){
                             System.out.println(menengah);
-                        } else if (data[4].equalsIgnoreCase("sulit")){
+                        } else if (data4.equalsIgnoreCase("sulit")){
                             System.out.println((sulit));
                         }
                         System.out.print("Status Quest: ");
-                        if (data[5].equalsIgnoreCase("tersedia")){
+                        if (data5.equalsIgnoreCase("tersedia")){
                             System.out.println(tersedia);
-                        } else if (data[5].startsWith("diambil")){
-                            System.out.println(data[5] + " " + diambil);
-                        } else if (data[5].equalsIgnoreCase("selesai")){
+                        } else if (data5.startsWith("diambil")){
+                            System.out.println(data5 + " " + diambil);
+                        } else if (data5.equalsIgnoreCase("selesai")){
                             System.out.println(selesai);
                         } 
                         System.out.println();
@@ -244,21 +268,37 @@ public class BurhanQuest {
                 case "2":
                     // Tampilkan daftar pengembara
                     System.out.println("Pengembara yang terdaftar: ");
-                    String[] travelerLines = travelerData.split("\n");
+                    Scanner travelerScanner = new Scanner(travelerData);
                     int travelerCounter = 1;
-
-                    for (String line : travelerLines){
+                    
+                    while (travelerScanner.hasNextLine()){
+                        String line = travelerScanner.nextLine();
                         if (line.trim().isEmpty()) continue;
 
-                        String[] data = line.split(";");
+                        int index_awal = 0;
+                        int index_akhir = line.indexOf(';');
+                        String data0 = line.substring(index_awal, index_akhir); // Nama Pengembara
+
+                        index_awal = index_akhir + 1;
+                        index_akhir = line.indexOf(';', index_awal);
+                        String data1 = line.substring(index_awal, index_akhir); // Level Pengembara
+
+                        index_awal = index_akhir +  1;
+                        index_akhir = line.indexOf(';', index_awal);
+                        String data2 = line.substring(index_awal, index_akhir); // Exp
+
+                        index_awal = index_akhir + 1;
+                        String data3 = line.substring(index_awal); // Status
+
+                    
                         System.out.println("ID Pengembara: P" + travelerCounter);
-                        System.out.println("Nama Pengembara: " + data[0]);
-                        System.out.println("Level Pengembara: " + data[1]);
-                        System.out.println("Exp Pengembara: " + data[2] + " poin exp");
+                        System.out.println("Nama Pengembara: " + data0);
+                        System.out.println("Level Pengembara: " + data1);
+                        System.out.println("Exp Pengembara: " + data2 + " poin exp");
                         System.out.print("Status Pengembara: ");
-                        if (data[3].equalsIgnoreCase("kosong")){
+                        if (data3.equalsIgnoreCase("kosong")){
                             System.out.println(kosong);
-                        } else if (data[3].equalsIgnoreCase("dalam quest")){
+                        } else if (data3.equalsIgnoreCase("dalam quest")){
                             System.out.println(dalamQuest);
                         }
                         System.out.println();
@@ -267,13 +307,16 @@ public class BurhanQuest {
                     
                     break;
                 case "3":
-                    // TODO: Tambah quest
-                    String[] linesCount = questData.split("\n");
-                    int nomorAddQuest;
-                    if (questData.isEmpty()){
-                        nomorAddQuest = 1; 
-                    } else{
-                        nomorAddQuest = linesCount.length + 1;
+                    // Tambah quest
+                    int nomorAddQuest = 1;
+                    if (!questData.isEmpty()){
+                        Scanner countQuest = new Scanner(questData);
+                        int lineCount = 0;
+                        while (countQuest.hasNextLine()) {
+                            countQuest.nextLine();
+                            lineCount++;
+                        }
+                        nomorAddQuest = lineCount + 1;
                     }
                     boolean Menu3 = true;
                     while (Menu3){
@@ -332,13 +375,16 @@ public class BurhanQuest {
                     break;
 
                 case "4":
-                    // TODO: Tambah pengembara
-                    String[] barisCount = travelerData.split("\n");
-                    int travelerAdd;
-                    if (travelerData.isEmpty()){
-                        travelerAdd = 1; 
-                    } else{
-                        travelerAdd = barisCount.length + 1;
+                    // Tambah pengembara
+                    int travelerAdd = 1;
+                    if (!travelerData.isEmpty()){
+                        Scanner countTraveler = new Scanner(travelerData);
+                        int lineCount = 0;
+                        while (countTraveler.hasNextLine()){
+                            countTraveler.nextLine();
+                            lineCount++;
+                        }
+                        travelerAdd = lineCount + 1;
                     }
                     boolean Menu4 = true;
                     while (Menu4){
@@ -385,7 +431,145 @@ public class BurhanQuest {
                     System.out.println();
                     break;
                 case "5":
-                    // TODO: Menjalankan quest
+                    // Menjalankan quest
+                    boolean Menu5 = true;
+                    while(Menu5){
+                        System.out.println("Masukkan ID Quest yang ingin diambil (atau 'X'/'x' untuk kembali): ");
+                        String idQuest = input.nextLine().trim();
+                        if (idQuest.equalsIgnoreCase("x")){
+                            Menu5 = false;
+                            continue;
+                        } 
+                        // Mencari dan Memvalidasi Quest
+                        boolean questFound = false;
+                        String tingkatKesulitanQuest = "";
+
+                        Scanner qScanner = new Scanner(questData); // Quest Scanner
+                        int qCounter = 1;
+                        boolean MencariQuest = true;
+                        while (qScanner.hasNextLine() && MencariQuest){
+                            String line = qScanner.nextLine();
+                            if (!line.trim().isEmpty()){
+
+                            String currentQId = "Q" + qCounter;
+                            // jika ID cocok (case insensitive)
+                            if (currentQId.equalsIgnoreCase(idQuest)){
+                                int pos1 = line.indexOf(';');
+                                int pos2 = line.indexOf(';', pos1+1);
+                                int pos3 = line.indexOf(';', pos2+1);
+                                int pos4 = line.indexOf(';', pos3+1);
+                                int pos5 = line.indexOf(';', pos4+1);
+
+                                tingkatKesulitanQuest = line.substring(pos4+1, pos5);
+                                String statusQuest = line.substring(pos5+1);
+
+                                // Syarat quest: harus "tersedia"
+                                if (statusQuest.equalsIgnoreCase("tersedia")){
+                                    questFound = true;
+                                }
+                                MencariQuest = false;
+                            } 
+                            qCounter++;
+                            }
+                        }
+                        if (!questFound) {
+                            System.out.println("Quest tidak ditemukan atau sudah diambil/selesai.");
+                        } else{
+                            // Jika quest valid, minta ID pengembara
+                            System.out.println("Masukkan ID Pengembara yang akan mengambil quest (atau 'X'/'x' untuk kembali): ");
+                            String idPengembara = input.nextLine().trim();
+
+                            if (idPengembara.equalsIgnoreCase("x")){
+                                Menu5 =  false;
+                            } else{
+                                // Mencari dan Memvalidasi Pengembara
+                                boolean travelerFound = false;
+                                Scanner tScanner = new Scanner(travelerData); // traveler scanner
+                                int tCounter = 1;
+                                boolean MencariPengembara = true;
+
+                                while (tScanner.hasNextLine() && MencariPengembara){
+                                    String line = tScanner.nextLine();
+
+                                    if (!line.trim().isEmpty()){
+                                        String currentPId = "P" + tCounter;
+                                        if (currentPId.equalsIgnoreCase(idPengembara)){
+                                            int pos1 = line.indexOf(';');
+                                            int pos2 = line.indexOf(';', pos1+1);
+                                            int pos3 = line.indexOf(';', pos2+1);
+
+                                            String levelStr = line.substring(pos1+1, pos2);
+                                            String statusTraveler = line.substring(pos3+1);
+
+                                            int level = Integer.parseInt(levelStr);
+                                            boolean levelCukup = false;
+
+                                            if (tingkatKesulitanQuest.equalsIgnoreCase("sulit")){
+                                                if (level >= 16){ 
+                                                    levelCukup = true;
+                                                }
+                                            } else if (tingkatKesulitanQuest.equalsIgnoreCase("menengah")){
+                                                if (level >= 6){
+                                                    levelCukup = true;
+                                                }
+                                            } else if (tingkatKesulitanQuest.equalsIgnoreCase("mudah")){
+                                                levelCukup = true;
+                                            }
+                                            if (statusTraveler.equalsIgnoreCase("kosong") && levelCukup){
+                                                travelerFound = true;
+                                            }
+                                            MencariPengembara = false; // Berhenti mencari data pengembara
+                                        }
+                                        tCounter++;
+                                    }
+                                }
+                                if (!travelerFound){
+                                    System.out.println("Pengembara tidak ditemukan atau tidak memenuhi persyaratan untuk mengambil quest.");
+                                } else{
+                                    // Mengupdate data
+                                    String newQuestData = "";
+                                    Scanner qUpdateScanner = new Scanner(questData);
+                                    int qUpdateCounter = 1;
+                                    while (qUpdateScanner.hasNextLine()){
+                                        String line = qUpdateScanner.nextLine();
+                                        if (!line.trim().isEmpty()){
+                                            String currentQid = "Q" + qUpdateCounter;
+                                            if (currentQid.equalsIgnoreCase(idQuest)){
+                                                newQuestData += line.replace(";tersedia", ";diambil") + "\n";
+                                            } else{
+                                                newQuestData += line + "\n";
+                                            }
+                                            qUpdateCounter++;
+                                        }
+                                    }
+                                    questData = newQuestData;
+
+                                    String newTravelerData = "";
+                                    Scanner tUpdateScanner = new Scanner(travelerData);
+                                    int tUpdateCounter = 1;
+                                    while (tUpdateScanner.hasNextLine()){
+                                        String line = tUpdateScanner.nextLine();
+                                        if (!line.trim().isEmpty()){
+                                            String currentPId = "P" + tUpdateCounter;
+                                            if (currentPId.equalsIgnoreCase(idPengembara)){
+                                                newTravelerData += line.replace(";kosong", ";dalam quest") + "\n";
+                                            } else{
+                                                newTravelerData += line + "\n";
+                                            }
+                                            tUpdateCounter++;
+                                        }
+                                    }
+                                    travelerData = newTravelerData;
+
+                                    System.out.println("Quest berhasil diambil!");
+                                    Menu5 = false; 
+                                }
+                            }
+                        }
+
+                    }
+
+
                     System.out.println("Belum diimplementasikan");
                     break;
                 case "6":
