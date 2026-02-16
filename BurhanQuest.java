@@ -439,6 +439,7 @@ public class BurhanQuest {
                         String idQuest = input.nextLine().trim();
                         if (idQuest.equalsIgnoreCase("x")){
                             Menu5 = false;
+                            System.out.println();
                             continue;
                         } 
                         // Mencari dan Memvalidasi Quest
@@ -536,7 +537,7 @@ public class BurhanQuest {
                                         if (!line.trim().isEmpty()){
                                             String currentQid = "Q" + qUpdateCounter;
                                             if (currentQid.equalsIgnoreCase(idQuest)){
-                                                newQuestData += line.replace(";tersedia", ";diambil" + idPengembara.toUpperCase()) + "\n";
+                                                newQuestData += line.replace(";tersedia", ";diambil" + "-" + idPengembara.toUpperCase()) + "\n";
                                             } else{
                                                 newQuestData += line + "\n";
                                             }
@@ -574,7 +575,7 @@ public class BurhanQuest {
                     // TODO: Menyelesaikan quest
                     boolean Menu6 = true;
                     while (Menu6){
-                        System.out.println("Masukkan ID Quest yang ingin diselesaikan (atau 'X'/'x' untuk kembali): ");
+                        System.out.print("Masukkan ID Quest yang ingin diselesaikan (atau 'X'/'x' untuk kembali): ");
                         String idQuest = input.nextLine().trim();
 
                         if (idQuest.equalsIgnoreCase("x")){
@@ -624,7 +625,82 @@ public class BurhanQuest {
                             if (!questFound || idPengembaraYbs.isEmpty()){
                                 System.out.println("Quest tidak ditemukan atau belum diambil/selesai.");
                             } else{
-                                // bobo dl
+                                // Proses mengupdate Pengembara (Tambah EXP 7 Level Up)
+                                String newTravelerData = "";
+                                Scanner tScanner = new Scanner(travelerData);
+                                int tCounter = 1;
+
+                                int totalExpBaru = 0;
+                                int levelBaruPengembara = 0;
+                                boolean isLevelUp = false;
+
+                                while (tScanner.hasNextLine()){
+                                    String line = tScanner.nextLine();
+                                    if (!line.trim().isEmpty()){
+                                        String currentPId = "P" + tCounter;
+
+                                        // Kalo ini pengembara yang mengerjakan quest, kita ubah datanya
+                                        if (currentPId.equalsIgnoreCase(idPengembaraYbs)){
+                                            int pos1 = line.indexOf(';');
+                                            int pos2 = line.indexOf(';', pos1+1);
+                                            int pos3 = line.indexOf(';', pos2+1);
+
+                                            String namaStr = line.substring(0, pos1);
+                                            String levelStr = line.substring(pos1+1, pos2);
+                                            String expStr = line.substring(pos2+1, pos3);
+
+                                            levelBaruPengembara = Integer.parseInt(levelStr);
+                                            totalExpBaru = Integer.parseInt(expStr) + bonusExpDapat;
+
+                                            // Level up dijamin hanya naik 1 level real no root
+                                            if (levelBaruPengembara < 20){
+                                                int syaratExp = (int) (5000 * Math.pow(2, levelBaruPengembara-1));
+                                                if (totalExpBaru >= syaratExp) {
+                                                    levelBaruPengembara++;
+                                                    isLevelUp = true;
+                                                }
+                                            }   
+                                            // Handle Max EXP jikalau menyentuh level 20 atau exp kelebihan
+                                            if (levelBaruPengembara == 20 || totalExpBaru > MAX_EXP){
+                                                totalExpBaru = MAX_EXP; // otomatis exp nya menjadi maksimal exp
+                                            }
+                                            // Membuat ulang baris pengembara
+                                            newTravelerData += namaStr + ";" + levelBaruPengembara + ";" + totalExpBaru + ";kosong\n";
+                                        } else{
+                                            newTravelerData += line + "\n";
+                                        }
+                                        tCounter++;
+                                    }
+                                }
+                                travelerData = newTravelerData;
+
+                                // Proses update Quest
+                                String newQuestData = "";
+                                Scanner qUpdateScanner = new Scanner(questData);
+                                int qUpdateCounter = 1;
+
+                                while (qUpdateScanner.hasNextLine()){
+                                    String line = qUpdateScanner.nextLine();
+                                    if (!line.trim().isEmpty()){
+                                        String currentQId = "Q" + qUpdateCounter;
+                                        if (currentQId.equalsIgnoreCase(idQuest)){
+                                            newQuestData += line.replace(";" + statusQuestOld, ";selesai") + "\n";
+                                        } else{
+                                            newQuestData += line + "\n";
+                                        }
+                                        qUpdateCounter++;
+                                    }
+                                }
+                                questData = newQuestData; // Update data quest dengan yang baru
+                                
+                                // Mencetak hasil akhir
+                                System.out.println("Quest berhasil diselesaikan!");
+                                System.out.println("Exp didapatkan: " + bonusExpDapat);
+                                System.out.println("Total Exp: " + totalExpBaru);
+                                if (isLevelUp){
+                                     System.out.println("Level pengembara naik menjadi: " + levelBaruPengembara);
+                                }
+                                Menu6 = false;
                             }
                         }
                     }
