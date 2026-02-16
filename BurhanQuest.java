@@ -403,7 +403,7 @@ public class BurhanQuest {
                         }
 
                         boolean namaBaruValid = namaBaru.matches("^[a-zA-Z0-9 ]+$");
-                        boolean levelNewValid = levelNew.matches("^[a-zA-Z0-9 ]+$");
+                        boolean levelNewValid = levelNew.matches("^[0-9]+$");
                         int levelBaru = 0;
                         if (levelNewValid) {
                         levelBaru = Integer.parseInt(levelNew);
@@ -430,11 +430,12 @@ public class BurhanQuest {
                     }
                     System.out.println();
                     break;
+
                 case "5":
                     // Menjalankan quest
                     boolean Menu5 = true;
                     while(Menu5){
-                        System.out.println("Masukkan ID Quest yang ingin diambil (atau 'X'/'x' untuk kembali): ");
+                        System.out.print("Masukkan ID Quest yang ingin diambil (atau 'X'/'x' untuk kembali): ");
                         String idQuest = input.nextLine().trim();
                         if (idQuest.equalsIgnoreCase("x")){
                             Menu5 = false;
@@ -476,7 +477,7 @@ public class BurhanQuest {
                             System.out.println("Quest tidak ditemukan atau sudah diambil/selesai.");
                         } else{
                             // Jika quest valid, minta ID pengembara
-                            System.out.println("Masukkan ID Pengembara yang akan mengambil quest (atau 'X'/'x' untuk kembali): ");
+                            System.out.print("Masukkan ID Pengembara yang akan mengambil quest (atau 'X'/'x' untuk kembali): ");
                             String idPengembara = input.nextLine().trim();
 
                             if (idPengembara.equalsIgnoreCase("x")){
@@ -535,7 +536,7 @@ public class BurhanQuest {
                                         if (!line.trim().isEmpty()){
                                             String currentQid = "Q" + qUpdateCounter;
                                             if (currentQid.equalsIgnoreCase(idQuest)){
-                                                newQuestData += line.replace(";tersedia", ";diambil") + "\n";
+                                                newQuestData += line.replace(";tersedia", ";diambil" + idPengembara.toUpperCase()) + "\n";
                                             } else{
                                                 newQuestData += line + "\n";
                                             }
@@ -568,13 +569,65 @@ public class BurhanQuest {
                         }
 
                     }
-
-
-                    System.out.println("Belum diimplementasikan");
                     break;
                 case "6":
                     // TODO: Menyelesaikan quest
-                    System.out.println("Belum diimplementasikan");
+                    boolean Menu6 = true;
+                    while (Menu6){
+                        System.out.println("Masukkan ID Quest yang ingin diselesaikan (atau 'X'/'x' untuk kembali): ");
+                        String idQuest = input.nextLine().trim();
+
+                        if (idQuest.equalsIgnoreCase("x")){
+                            Menu6 = false;
+                        } else{
+                            // Mencari quest dan ambil data exp serta ID Pengembara yang sedang mengerjakan
+                            boolean questFound = false;
+                            int bonusExpDapat = 0;
+                            String idPengembaraYbs = "";
+                            String statusQuestOld = "";
+
+                            Scanner qScanner = new Scanner(questData);
+                            int qCounter = 1;
+                            boolean MencariQuest = true;
+
+                            while (qScanner.hasNextLine() && MencariQuest){
+                                String line = qScanner.nextLine();
+
+                                if (!line.trim().isEmpty()){
+                                    String currentQId = "Q" + qCounter;
+                                    if (currentQId.equalsIgnoreCase(idQuest)){
+                                        int pos1 = line.indexOf(';');
+                                        int pos2 = line.indexOf(';',pos1+1);
+                                        int pos3 = line.indexOf(';', pos2+1);
+                                        int pos4 = line.indexOf(';', pos3+1);
+                                        int pos5 = line.indexOf(';', pos4+1);
+                                        String expStr = line.substring(pos3+1, pos4);
+                                        String statusQuest = line.substring(pos5+1);
+
+                                        // Mengecek apakah statusnya diawali dengan 'diambil'
+                                        if (statusQuest.startsWith("diambil")){
+                                            questFound = true;
+                                            bonusExpDapat = Integer.parseInt(expStr);
+                                            statusQuestOld = statusQuest; // Menyimpan tulisan contoh: "diambil-P1"
+                                            
+                                            // Mengambil ID Pengembara dari buntut status (misal: "diambil-P!" ->"P1")
+                                            int stripIndex = statusQuest.indexOf('-');
+                                            if (stripIndex != -1){
+                                                idPengembaraYbs = statusQuest.substring((stripIndex + 1));
+                                            }
+                                        }
+                                        MencariQuest = false;
+                                    }
+                                    qCounter++;
+                                }
+                            }
+                            if (!questFound || idPengembaraYbs.isEmpty()){
+                                System.out.println("Quest tidak ditemukan atau belum diambil/selesai.");
+                            } else{
+                                // bobo dl
+                            }
+                        }
+                    }
                     break;
                 case "7":
                     // TODO: Filter daftar quest
