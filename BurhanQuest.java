@@ -706,8 +706,177 @@ public class BurhanQuest {
                     }
                     break;
                 case "7":
-                    // TODO: Filter daftar quest
-                    System.out.println("Belum diimplementasikan");
+                    // Filter daftar quest
+                    boolean Menu7 = true;
+                    while (Menu7){
+                    System.out.println("Filter daftar quest");
+                    System.out.println("1. Filter berdasarkan status");
+                    System.out.println("2. Filter berdasarkan tingkat kesulitan");
+                    System.out.println("X. Kembali ke menu utama");
+                    System.out.print("Masukkan tipe filter: ");
+                    String tipeFilterQuest = input.nextLine().trim();
+
+                    if (tipeFilterQuest.equalsIgnoreCase("x")){
+                        Menu7 = false;
+                    } else if (tipeFilterQuest.equals("1")){
+                        System.out.println("Masukkan status quest yang ingin difilter (tersedia/diambil/selesai), masukan 'x' atau 'X' untuk kembali ke menu utama: ");
+                        String statusFilter = input.nextLine().trim();
+                        // Jika pengguna input X
+                        if (statusFilter.equalsIgnoreCase("x")){
+                            Menu7 = false;
+                        } else if (statusFilter.equalsIgnoreCase("tersedia") || statusFilter.equalsIgnoreCase("diambil") || statusFilter.equalsIgnoreCase("selesai")){
+                            Scanner fScannerStatus = new Scanner(questData);
+                            counterId = 1;
+                            boolean adaData = false;
+
+                            while (fScannerStatus.hasNextLine()){
+                                String line = fScannerStatus.nextLine();
+                                if (!line.trim().isEmpty()){
+                                    int index_awal = 0;
+                                    int index_akhir = line.indexOf(';');
+                                    String data0 = line.substring(index_awal, index_akhir);
+
+                                    index_awal = index_akhir + 1;
+                                    index_akhir = line.indexOf(';', index_awal);
+                                    String data1 = line.substring(index_awal, index_akhir);
+
+                                    index_awal = index_akhir + 1;
+                                    index_akhir = line.indexOf(';', index_awal);
+                                    String data2 = line.substring(index_awal, index_akhir);
+
+                                    index_awal = index_akhir + 1;
+                                    index_akhir = line.indexOf(';', index_awal);
+                                    String data3 = line.substring(index_awal, index_akhir);
+
+                                    index_awal = index_akhir + 1;
+                                    index_akhir = line.indexOf(';', index_awal);
+                                    String data4 = line.substring(index_awal, index_akhir);
+
+                                    index_awal = index_akhir + 1;
+                                    String data5 = line.substring(index_awal);
+
+                                    boolean match = false;
+                                    // pake startsWith untuk mendeteksi "diambil-P1"
+                                    if (statusFilter.equalsIgnoreCase("diambil") && data5.toLowerCase().startsWith("diambil")){
+                                        match = true;
+                                    } else if (data5.equalsIgnoreCase(statusFilter)){
+                                        match = true;
+                                    }
+                                    if (match){
+                                        if (!adaData){
+                                            System.out.println("\nDaftar quest terfilter:");
+                                            adaData = true; // supaya judulnya hanya di-print sekali
+                                        }
+                                        System.out.println("ID Quest: Q" + counterId);
+                                        System.out.println("Nama Quest: " + data0);
+                                        System.out.println("Deskripsi Quest: " + data1);
+                                        System.out.println("Reward Quest: " + data2 + " koin");
+                                        System.out.println("Bonus Exp Quest: " + data3 + " poin exp");
+
+                                        System.out.println("Tingkat Kesulitan Quest: ");
+                                        if (data4.equalsIgnoreCase("mudah")){
+                                            System.out.println(mudah);
+                                        } else if (data4.equalsIgnoreCase("menengah")){
+                                            System.out.println(menengah);
+                                        } else if (data4.equalsIgnoreCase("sulit")){
+                                        System.out.println(sulit);
+                                        }
+                                    
+                                        System.out.println("Status Quest: ");
+                                        if (data5.equalsIgnoreCase("tersedia")){
+                                            System.out.println(tersedia);
+                                        } else if (data5.toLowerCase().startsWith("diambil")){
+                                            System.out.println(data5 + "-" + diambil);
+                                        } else if (data5.equalsIgnoreCase("selesai")){
+                                         System.out.println(selesai);
+                                        }
+                                        System.out.println();
+                                    }
+                                    counterId++; 
+                                }
+                            }
+                           
+                        } else{
+                        System.out.println("Pilihan tidak valid. Harap masukkan pilihan dengan benar.");
+                    }
+
+                    }  else if(tipeFilterQuest.equals("2")){
+                        System.out.print("Masukkan tingkat kesulitan quest yang ingin difilter (mudah/menengah/sulit), masukan 'x' atau 'X' untuk kembali ke menu utama: ");
+                        String tingkatFilter = input.nextLine().trim();
+
+                        if (tingkatFilter.equalsIgnoreCase("x")){
+                            Menu7 = false;
+                        } else if (tingkatFilter.equalsIgnoreCase("mudah") || tingkatFilter.equalsIgnoreCase("menengah") || tingkatFilter.equalsIgnoreCase("sulit")){
+                            Scanner fScannerTingkat = new Scanner(questData);
+                            counterId = 1;
+                            boolean adaData = false;
+
+                            while (fScannerTingkat.hasNextLine()){
+                                String line = fScannerTingkat.nextLine();
+                                if (!line.trim().isEmpty()){
+                                    int index_awal = 0;
+                                    int index_akhir = line.indexOf(';');
+                                    String data0 = line.substring(index_awal, index_akhir);
+
+                                    index_awal = index_akhir + 1;
+                                    index_akhir = line.indexOf(';', index_awal);
+                                    String data1 = line.substring(index_awal, index_akhir);
+
+                                    index_awal = index_akhir + 1;
+                                    index_akhir = line.indexOf(';', index_awal);
+                                    String data2 = line.substring(index_awal, index_akhir);
+                                    
+                                    index_awal = index_akhir + 1;
+                                    index_akhir = line.indexOf(';', index_awal);
+                                    String data3 = line.substring(index_awal, index_akhir);
+                                    
+                                    index_awal = index_akhir + 1;
+                                    index_akhir = line.indexOf(';', index_awal);
+                                    String data4 = line.substring(index_awal, index_akhir);
+
+                                    index_awal = index_akhir + 1;
+                                    String data5 = line.substring(index_awal);
+
+                                    if (data4.equalsIgnoreCase(tingkatFilter)){
+                                        if (!adaData){
+                                            System.out.println("\nDaftar quest terfilter:");
+                                            adaData = true;
+                                        }
+                                        System.out.println("ID Quest: Q" + counterId);
+                                        System.out.println("Nama Quest: " + data0);
+                                        System.out.println("Deskripsi Quest: " + data1);
+                                        System.out.println("Reward Quest: " + data2 + " koin");
+                                        System.out.println("Bonus Exp Quest: " + data3 + " poin exp");
+
+                                        System.out.println("Tingkat Kesulitan Quest: ");
+                                        if (data4.equalsIgnoreCase("mudah")){
+                                            System.out.println(mudah);
+                                        } else if (data4.equalsIgnoreCase("menengah")){
+                                            System.out.println(menengah);
+                                        } else if (data4.equalsIgnoreCase("sulit")){
+                                            System.out.println(sulit);
+                                        }
+                                        System.out.println("Status Quest: ");
+                                        if (data5.equalsIgnoreCase("tersedia")){
+                                            System.out.println(tersedia);
+                                        } else if(data5.toLowerCase().startsWith("diambil")){
+                                            System.out.println(data5 + "-" + diambil);
+                                        } else if (data5.equalsIgnoreCase("selesai")){
+                                            System.out.println(selesai);
+                                        }
+                                        System.out.println();
+                                    }
+                                    counterId++;
+                                }
+                            }
+                        } else {
+                            System.out.println("Pilihan tidak valid. Harap masukkan pilihan dengan benar.");
+                        }
+                    } else {
+                        System.out.println("Pilihan tidak valid. Harap masukkan pilihan dengan benar.");
+                    }
+
+                    }
                     break;
                 case "8":
                     // TODO: Filter daftar pengembara
