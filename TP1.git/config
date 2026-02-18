@@ -1,0 +1,12 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/nasywanamira/TP1.git
+	tagOpt = --no-tags
+	fetch = +refs/*:refs/*
+	mirror = true
+	pushurl = https://github.com/DDP2-Genap-2025-2026/tp1-genap-2526-nasywanamira.git
